@@ -1,19 +1,23 @@
+using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Entities;
 using UnityEngine;
 
-public partial struct PlayerHPCalculatingSystem : ISystem
+public partial class PlayerHPCalculatingSystem : SystemBase
 {
-    public void OnUpdate(ref SystemState state)
+    public Action<int> OnUpdateHP;
+    protected override void OnUpdate()
     {
-        var ecbSingleton = SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>();
-        var ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
-
+        var ecb = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
         foreach (var (player, entity) in SystemAPI.Query<RefRW<PlayerInfo>>().WithAll<IsPlayerDamaged>().WithEntityAccess())
         {
             player.ValueRW.HitPoint--;
+            OnUpdateHP?.Invoke(player.ValueRO.HitPoint);
             ecb.RemoveComponent<IsPlayerDamaged>(entity);
         }
+        ecb.Playback(EntityManager);
+        ecb.Dispose();
     }
 }

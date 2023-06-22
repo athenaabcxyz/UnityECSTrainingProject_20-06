@@ -22,18 +22,6 @@ public partial struct BulletMovementSystem : ISystem
                 ecb.DestroyEntity(entity);
                 return;
             }
-
-            foreach(var (cubeTransform, hp, cubeEntity) in SystemAPI.Query<RefRO<LocalTransform>, RefRW<CubeHP>>().WithAll<CubeTag>().WithEntityAccess())
-            {
-                if (math.distancesq(transform.ValueRO.Position, cubeTransform.ValueRO.Position) <= 2)
-                {
-                    ecb.DestroyEntity(entity);
-                    hp.ValueRW.HP -= speed.ValueRO.bulletDmg;
-                    if(hp.ValueRO.HP<=0)
-                    ecb.DestroyEntity(cubeEntity);
-                    return;
-                }
-            }
         }
     }
 }
