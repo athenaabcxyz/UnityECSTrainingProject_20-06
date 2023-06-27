@@ -21,8 +21,7 @@ public partial struct SpawnerSystem : ISystem
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
-        state.RequireForUpdate<Spawner>();
-        
+        state.RequireForUpdate<Spawner>();        
     }
 
     [BurstCompile]
@@ -50,21 +49,18 @@ public partial struct SpawnerSystem : ISystem
                 ecb.SetComponent(cube, new LocalTransform
                 {
                     Position = transform.Position,
-                    Scale = 2,
-                    Rotation = Quaternion.identity
+                    Scale = tag? 4:2,
+                    Rotation = Quaternion.identity,
                 });
                 ecb.SetComponent(cube, new CubeSpeed { speed = config.modificationMoveSpeed });
                 ecb.SetComponent(cube, new CubeTag { tag = tag });
                 if (tag)
                 {
                     ecb.SetComponent(cube, new CubeHP { HP = 10 });
-                    ecb.SetComponent(cube, new URPMaterialPropertyBaseColor { Value = new float4(255, 0, 0, 255) });
-
                 }
                 else
                 {
                     ecb.SetComponent(cube, new CubeHP { HP = 5 });
-                    ecb.SetComponent(cube, new URPMaterialPropertyBaseColor { Value = new float4(0, 200, 255, 255) });
                 }
             }
             var job = new LevelUpJob();

@@ -2,23 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
+using Unity.Rendering;
 
 public class CubeSpawnerAuthoring : MonoBehaviour
 {
     [SerializeField] GameObject CubePrefab;
 
-    class Baker: Baker<CubeSpawnerAuthoring>
+    class Baker : Baker<CubeSpawnerAuthoring>
     {
         public override void Bake(CubeSpawnerAuthoring authoring)
         {
             var entity = GetEntity(TransformUsageFlags.Dynamic);
-            AddComponent(entity, new Spawner
-            {
-                CubePrefab = GetEntity(authoring.CubePrefab, TransformUsageFlags.None),
-                currentLevel=1,
-                enemiesQuantity=10,
-                modificationMoveSpeed=1f,
-            });
+            Spawner spawner = new Spawner();
+            spawner.CubePrefab = GetEntity(authoring.CubePrefab, TransformUsageFlags.None);
+            spawner.currentLevel = 1;
+            spawner.enemiesQuantity = 10;
+            spawner.modificationMoveSpeed = 1f;
+            AddComponent(entity, spawner);           
         }
     }
 }

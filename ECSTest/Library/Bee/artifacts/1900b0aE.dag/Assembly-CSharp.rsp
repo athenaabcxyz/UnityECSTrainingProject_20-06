@@ -420,6 +420,7 @@
 "Assets/Scripts/CubeRotatingSystem.cs"
 "Assets/Scripts/CubeSpawnerAuthoring.cs"
 "Assets/Scripts/LevelUpdateSystem.cs"
+"Assets/Scripts/MaterialAuthoring.cs"
 "Assets/Scripts/PlayerAuthoring.cs"
 "Assets/Scripts/PlayerHPCalculatingSystem.cs"
 "Assets/Scripts/PlayerMovementSystem.cs"

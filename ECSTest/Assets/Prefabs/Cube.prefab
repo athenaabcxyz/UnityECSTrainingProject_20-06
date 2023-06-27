@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3496978997730104064}
   - component: {fileID: 683347726281943516}
   - component: {fileID: 1252367722800634188}
-  - component: {fileID: 8282096114742835945}
   - component: {fileID: 4707400185231143332}
   m_Layer: 0
   m_Name: Cube
@@ -98,19 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc45570989b43b741872186f13bf3892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8282096114742835945
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5577723414574980956}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54b6467bcd530cd4d809fae70ea0ca9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  color: {r: 0, g: 0, b: 0, a: 0}
+  Cheem: {fileID: 2100000, guid: b4a684c3e7d85ed4680c571ebcb31d98, type: 2}
+  ChadCheem: {fileID: 2100000, guid: 960e40f083a44b949b17b26502499931, type: 2}
 --- !u!65 &4707400185231143332
 BoxCollider:
   m_ObjectHideFlags: 0
