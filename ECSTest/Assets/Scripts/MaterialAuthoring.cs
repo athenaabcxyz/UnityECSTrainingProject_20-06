@@ -19,12 +19,12 @@ public partial struct MaterialAuthoring : ISystem
     {
         foreach (var (mmi, material, hp) in SystemAPI.Query<RefRW<MaterialMeshInfo>, RefRO<MaterialChanger>, RefRO<CubeHP>>())
         {
-            if (hp.ValueRO.HP==10)
+            if (hp.ValueRO.HP==10||hp.ValueRO.HP==100)
             {
                 mmi.ValueRW.MaterialID = material.ValueRO.chadCheem;
             }
             else
-            if(hp.ValueRO.HP==5)
+            if(hp.ValueRO.HP==5 || hp.ValueRO.HP == 25)
             {
                 mmi.ValueRW.MaterialID = material.ValueRO.cheem;
             }

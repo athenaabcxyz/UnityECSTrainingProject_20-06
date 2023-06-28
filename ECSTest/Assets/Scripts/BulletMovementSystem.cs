@@ -16,7 +16,9 @@ public partial struct BulletMovementSystem : ISystem
 
         foreach (var (transform, speed, entity) in SystemAPI.Query<RefRW<LocalTransform>, RefRO<BulletProperties>>().WithEntityAccess())
         {
-            transform.ValueRW.Position.y += 1 * speed.ValueRO.bulletSpeed * SystemAPI.Time.DeltaTime;
+            transform.ValueRW = transform.ValueRO.RotateZ(
+                    10f * SystemAPI.Time.DeltaTime);
+            transform.ValueRW.Position.y += 1 * 10f * SystemAPI.Time.DeltaTime;
             if(transform.ValueRW.Position.y > 150)
             {
                 ecb.DestroyEntity(entity);

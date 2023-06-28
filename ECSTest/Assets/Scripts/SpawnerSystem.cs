@@ -17,11 +17,11 @@ using Random = Unity.Mathematics.Random;
 
 public partial struct SpawnerSystem : ISystem
 {
-    
+
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
-        state.RequireForUpdate<Spawner>();        
+        state.RequireForUpdate<Spawner>();
     }
 
     [BurstCompile]
@@ -34,43 +34,61 @@ public partial struct SpawnerSystem : ISystem
         {
             var transform = new LocalTransform();
             var ecb = new EntityCommandBuffer(Allocator.Temp);
-            var Cubes = new NativeArray<Entity>(config.enemiesQuantity, Allocator.Temp);
-
+            var Cubes = new NativeArray<Entity>(config.enemiesQuantity % 50 == 0 ? 1 : config.enemiesQuantity, Allocator.TempJob);
             ecb.Instantiate(config.CubePrefab, Cubes);
-
-            foreach (var cube in Cubes)
+            ecb.Playback(state.EntityManager);
+            if (config.enemiesQuantity % 8 == 0)
             {
 
-                transform.Position.x = randomValue.NextInt(-20, 70);
-                transform.Position.y = randomValue.NextInt(30, 40);
+                var rectangleSpawner = new TwoSideSpawner
+                {
+                    transform = transform,
+                    randomValue = randomValue,
+                    config = config
+                };
+                rectangleSpawner.ScheduleParallel();
+            }
+            else
+            if (config.enemiesQuantity % 20 == 0 &&config.enemiesQuantity%40!=0)
+            {
 
-                bool tag = randomValue.NextBool();
-
-                ecb.SetComponent(cube, new LocalTransform
+                var rectangleSpawner = new TriangleSpawner
                 {
-                    Position = transform.Position,
-                    Scale = tag? 4:2,
-                    Rotation = Quaternion.identity,
-                });
-                ecb.SetComponent(cube, new CubeSpeed { speed = config.modificationMoveSpeed });
-                ecb.SetComponent(cube, new CubeTag { tag = tag });
-                if (tag)
+                    transform = transform,
+                    randomValue = randomValue,
+                    config = config
+                };
+                rectangleSpawner.ScheduleParallel();
+            }
+            else
+            if(config.enemiesQuantity%50==0)
+            {
+                var rectangleSpawner = new BossSpawner
                 {
-                    ecb.SetComponent(cube, new CubeHP { HP = 10 });
-                }
-                else
+                    transform = transform,
+                    randomValue = randomValue,
+                    config = config
+                };
+                rectangleSpawner.ScheduleParallel();
+            }
+            else
+            {
+                var rectangleSpawner = new RectangleSpawner
                 {
-                    ecb.SetComponent(cube, new CubeHP { HP = 5 });
-                }
+                    transform = transform,
+                    randomValue = randomValue,
+                    config = config
+                };
+                rectangleSpawner.ScheduleParallel();
             }
             var job = new LevelUpJob();
             job.Schedule();
-            ecb.Playback(state.EntityManager);
             ecb.Dispose();
         }
     }
 }
 
+[BurstCompile]
 public partial struct LevelUpJob : IJobEntity
 {
     public void Execute(ref Spawner config)
@@ -80,5 +98,153 @@ public partial struct LevelUpJob : IJobEntity
         config.modificationMoveSpeed *= (1 + (0.1f * config.currentLevel));
     }
 }
+
+[BurstCompile]
+public partial struct BossSpawner : IJobEntity
+{
+    public LocalTransform transform;
+    public Random randomValue;
+    public Spawner config;
+    public void Execute([EntityIndexInQuery] int index, ref LocalTransform cubeTransform, ref CubeTag tag, ref CubeHP hp, ref CubeSpeed speed)
+    {
+        transform.Position.x = 19;
+        transform.Position.y = 30;
+
+        cubeTransform = new LocalTransform
+        {
+            Position = transform.Position,
+            Scale = 12,
+            Rotation = Quaternion.LookRotation(new float3(0, 0, -1), new float3(0, 1, 0)),
+        };
+        speed = new CubeSpeed { speed = 1f };
+        tag = new CubeTag { tag = true };
+        hp = new CubeHP { HP = 100 };
+    }
+}
+
+
+[BurstCompile]
+public partial struct RectangleSpawner : IJobEntity
+{
+    public LocalTransform transform;
+    public Random randomValue;
+    public Spawner config;
+    public void Execute([EntityIndexInQuery] int index, ref LocalTransform cubeTransform, ref CubeTag tag, ref CubeHP hp, ref CubeSpeed speed)
+    {
+        transform.Position.x = -8 + 6 * (index%10);
+        transform.Position.y = (30 + 6*(index/10));
+        bool isTag = randomValue.NextBool();
+
+        cubeTransform = new LocalTransform
+        {
+            Position = transform.Position,
+            Scale = 4,
+            Rotation = Quaternion.LookRotation(new float3(0,0,-1),new float3(0,1,0)),
+        };
+        speed = new CubeSpeed { speed = config.modificationMoveSpeed };
+        tag = new CubeTag { tag = isTag };
+        if (isTag)
+        {
+            hp = new CubeHP { HP = 10 };
+        }
+        else
+        {
+            hp = new CubeHP { HP = 5 };
+        }
+    }
+}
+
+[BurstCompile]
+public partial struct TriangleSpawner : IJobEntity
+{
+    public LocalTransform transform;
+    public Random randomValue;
+    public Spawner config;
+    public void Execute([EntityIndexInQuery] int index, ref LocalTransform cubeTransform, ref CubeTag tag, ref CubeHP hp, ref CubeSpeed speed)
+    {
+        int currentPos = index %20;
+        if(currentPos<=7)
+        {
+            transform.Position.x = -2 + 6 * (currentPos % 8);
+            transform.Position.y = (30 + 24 * (index/20));
+        }
+        else
+            if(currentPos<=13)
+        {
+            transform.Position.x = 4 + 6 * ((currentPos-8) % 6);
+            transform.Position.y = (36 + 24 * (index / 20));
+        }
+        else
+           if(currentPos<=17)
+        {
+            transform.Position.x = 10 + 6 * ((currentPos-14) % 4);
+            transform.Position.y = (42 + 24 * (index / 20));
+        }
+        else
+        {
+            transform.Position.x = 16 + 6 * ((currentPos - 18) % 2);
+            transform.Position.y = (48 + 24 * (index / 20));
+        }
+        bool isTag = randomValue.NextBool();
+
+        cubeTransform = new LocalTransform
+        {
+            Position = transform.Position,
+            Scale = 4,
+            Rotation = Quaternion.LookRotation(new float3(0, 0, -1), new float3(0, 1, 0)),
+        };
+        speed = new CubeSpeed { speed = config.modificationMoveSpeed };
+        tag = new CubeTag { tag = isTag };
+        if (isTag)
+        {
+            hp = new CubeHP { HP = 10 };
+        }
+        else
+        {
+            hp = new CubeHP { HP = 5 };
+        }
+    }
+}
+
+[BurstCompile]
+public partial struct TwoSideSpawner : IJobEntity
+{
+    public LocalTransform transform;
+    public Random randomValue;
+    public Spawner config;
+    public void Execute([EntityIndexInQuery] int index, ref LocalTransform cubeTransform, ref CubeTag tag, ref CubeHP hp, ref CubeSpeed speed)
+    {
+
+        if (index % 8 >= 3)
+        {
+            transform.Position.x =  4- ((index / 8) % 2) * 6 + 6 * (index % 8);
+            transform.Position.y = (30 + 6 * (index / 8));
+        }
+        else
+        {
+            transform.Position.x = -8 - ((index / 8) % 2) * 6 + 6 * (index % 8);
+            transform.Position.y = (30 + 6 * (index / 8));
+        }
+        bool isTag = randomValue.NextBool();
+
+        cubeTransform = new LocalTransform
+        {
+            Position = transform.Position,
+            Scale = -4,
+            Rotation = Quaternion.LookRotation(new float3(0, 0, -1), new float3(0, 1, 0)),
+        };
+        speed = new CubeSpeed { speed = config.modificationMoveSpeed };
+        tag = new CubeTag { tag = isTag };
+        if (isTag)
+        {
+            hp = new CubeHP { HP = 10 };
+        }
+        else
+        {
+            hp = new CubeHP { HP = 5 };
+        }
+    }
+}
+
 
 

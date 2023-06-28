@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class BulletAuthoring : MonoBehaviour
 {
-    public float bulletSpeed = 50f;
+    public float bulletSpeed = 2f;
 
     class Baker : Baker<BulletAuthoring>
     {

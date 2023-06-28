@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3426759891565095107}
   - component: {fileID: 7553484069457816220}
   - component: {fileID: 7126101954049026252}
-  - component: {fileID: 5426545110473197553}
   - component: {fileID: 4025549255005884860}
   m_Layer: 0
   m_Name: Bullet
@@ -64,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: f56081be2fb2cca49afb62c3c7ec703e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -99,19 +98,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletSpeed: 100
---- !u!114 &5426545110473197553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6343026530127671572}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54b6467bcd530cd4d809fae70ea0ca9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  color: {r: 1, g: 0.8227807, b: 0, a: 0}
 --- !u!136 &4025549255005884860
 CapsuleCollider:
   m_ObjectHideFlags: 0

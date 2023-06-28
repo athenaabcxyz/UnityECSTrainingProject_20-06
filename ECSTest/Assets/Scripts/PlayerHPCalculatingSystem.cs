@@ -11,9 +11,9 @@ public partial class PlayerHPCalculatingSystem : SystemBase
     protected override void OnUpdate()
     {
         var ecb = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
-        foreach (var (player, entity) in SystemAPI.Query<RefRW<PlayerInfo>>().WithAll<IsPlayerDamaged>().WithEntityAccess())
+        foreach (var (player,damage, entity) in SystemAPI.Query<RefRW<PlayerInfo>, RefRO<IsPlayerDamaged>>().WithEntityAccess())
         {
-            player.ValueRW.HitPoint--;
+            player.ValueRW.HitPoint-=damage.ValueRO.damage;
             OnUpdateHP?.Invoke(player.ValueRO.HitPoint);
             ecb.RemoveComponent<IsPlayerDamaged>(entity);
         }

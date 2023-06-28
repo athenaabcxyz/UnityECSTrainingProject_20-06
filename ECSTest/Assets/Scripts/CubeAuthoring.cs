@@ -44,7 +44,8 @@ public struct CubeSpeed: IComponentData
 {
     public float speed;
 }
-public struct IsPlayerDamaged : IComponentData { 
+public struct IsPlayerDamaged : IComponentData {
+    public int damage;
 }
 public struct MaterialChanger : IComponentData
 {
