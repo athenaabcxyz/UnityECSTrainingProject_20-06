@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638228383564410375
-    m_Hash: 4023600118
+      ticks: 638240379445102885
+    m_Hash: 4265120845
   m_LockFileStatus:
     m_FilePath: D:/Github/UnityECSTrainingProject_20-06/ECSTest/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638228383564515679
-    m_Hash: 2447422459
+      ticks: 638240379445163372
+    m_Hash: 2285581099
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:
@@ -22,6 +22,62 @@ m_LocalPackages:
 m_ProjectPath: D:/Github/UnityECSTrainingProject_20-06/ECSTest/Packages
 m_EditorVersion: 2022.3.0f1 (fb119bb0b476)
 m_ResolvedPackages:
+- packageId: com.cortexdeveloper.ecs.messages@https://github.com/CortexDeveloper/ecs-messages.git?path=src/ecs-messages/Assets/Package#0.3.2
+  testable: 0
+  isDirectDependency: 1
+  version: 0.3.2
+  source: 5
+  resolvedPath: D:\Github\UnityECSTrainingProject_20-06\ECSTest\Library\PackageCache\com.cortexdeveloper.ecs.messages@66a1389274
+  assetPath: Packages/com.cortexdeveloper.ecs.messages
+  name: com.cortexdeveloper.ecs.messages
+  displayName: ECS Messages
+  author:
+    name: cortexdeveloper
+    email: cortexdeveloper@gmail.com
+    url: https://github.com/CortexDeveloper/
+  category: 
+  type: 
+  description: ECS implementation of messaging system.
+  status: 0
+  errors: []
+  versions:
+    all: []
+    compatible: []
+    recommended: 
+    deprecated: []
+  dependencies: []
+  resolvedDependencies: []
+  keywords:
+  - Messages
+  - Events
+  - Dev Kit
+  - Game Tools
+  registry:
+    id: main
+    name: 
+    url: https://packages.unity.com
+    scopes: []
+    isDefault: 1
+    capabilities: 7
+    configSource: 0
+  hideInEditor: 1
+  isAssetStorePackage: 0
+  datePublishedTicks: 0
+  documentationUrl: https://github.com/CortexDeveloper/ecs-messages
+  hasRepository: 0
+  repository:
+    type: 
+    url: 
+    revision: 
+    path: 
+  unityLifecycle:
+    version: 
+    nextVersion: 
+    recommendedVersion: 
+    isDeprecated: 0
+    deprecationMessage: 
+  isDeprecated: 0
+  deprecationMessage: 
 - packageId: com.unity.collab-proxy@2.0.4
   testable: 0
   isDirectDependency: 1
@@ -243,6 +299,7 @@ m_ResolvedPackages:
     - 1.0.0-pre.65
     - 1.0.8
     - 1.0.10
+    - 1.0.11
     compatible:
     - 0.0.12-preview.2
     - 0.0.12-preview.4
@@ -304,6 +361,7 @@ m_ResolvedPackages:
     - 1.0.0-pre.65
     - 1.0.8
     - 1.0.10
+    - 1.0.11
     recommended: 
     deprecated: []
   dependencies:
@@ -411,6 +469,7 @@ m_ResolvedPackages:
     - 1.0.0-pre.65
     - 1.0.8
     - 1.0.10
+    - 1.0.11
     compatible:
     - 1.0.0-exp.8
     - 1.0.0-exp.14
@@ -419,6 +478,7 @@ m_ResolvedPackages:
     - 1.0.0-pre.65
     - 1.0.8
     - 1.0.10
+    - 1.0.11
     recommended: 
     deprecated: []
   dependencies:
@@ -808,6 +868,7 @@ m_ResolvedPackages:
     - 1.0.0-pre.65
     - 1.0.8
     - 1.0.10
+    - 1.0.11
     compatible:
     - 0.0.1-preview.1
     - 0.0.2-preview.1
@@ -837,6 +898,7 @@ m_ResolvedPackages:
     - 1.0.0-pre.65
     - 1.0.8
     - 1.0.10
+    - 1.0.11
     recommended: 
     deprecated: []
   dependencies:
@@ -1445,17 +1507,21 @@ m_ResolvedPackages:
     - 1.7.2
     - 1.7.3
     - 1.7.4
+    - 1.7.5
     - 1.8.0
     - 1.8.1
     - 1.8.2
     - 1.8.3
+    - 1.8.4
     compatible:
     - 1.7.4
+    - 1.7.5
     - 1.8.0
     - 1.8.1
     - 1.8.2
     - 1.8.3
-    recommended: 1.7.4
+    - 1.8.4
+    recommended: 1.7.5
     deprecated: []
   dependencies:
   - name: com.unity.modules.director
@@ -3601,10 +3667,14 @@ m_ResolvedPackages:
     - 1.0.6
     - 2.0.2
     - 2.0.3
+    - 2.0.4
+    - 2.0.5
     compatible:
     - 1.0.6
     - 2.0.2
     - 2.0.3
+    - 2.0.4
+    - 2.0.5
     recommended: 1.0.6
     deprecated: []
   dependencies: []
@@ -4321,6 +4391,7 @@ m_ResolvedPackages:
     - 2.1.0-pre.18
     - 2.1.1
     - 2.1.4
+    - 2.2.0
     compatible:
     - 1.2.4
     - 1.3.1
@@ -4332,6 +4403,7 @@ m_ResolvedPackages:
     - 2.1.0-pre.18
     - 2.1.1
     - 2.1.4
+    - 2.2.0
     recommended: 1.2.4
     deprecated: []
   dependencies:
@@ -4654,9 +4726,11 @@ m_ResolvedPackages:
     - 1.21.2
     - 1.21.3
     - 1.21.5
+    - 1.21.7
     compatible:
     - 1.21.5
-    recommended: 1.21.5
+    - 1.21.7
+    recommended: 1.21.7
     deprecated: []
   dependencies: []
   resolvedDependencies: []

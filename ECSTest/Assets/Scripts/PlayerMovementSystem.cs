@@ -9,8 +9,17 @@ using UnityEngine;
 public partial struct PlayerMovementSystem: ISystem
 {
     [BurstCompile]
+    public void OnCreate(ref SystemState state)
+    {
+        state.RequireForUpdate<GameStateCommand>();
+    }
+    [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
+        GameStateCommand gameState;
+        SystemAPI.TryGetSingleton<GameStateCommand>(out gameState);
+        if (gameState.currentState != 1)
+            return;
         var horizontalInput = Input.GetAxis("Horizontal");
         var input = new float3(horizontalInput, 0, 0) * SystemAPI.Time.DeltaTime;
         if (input.Equals(0))

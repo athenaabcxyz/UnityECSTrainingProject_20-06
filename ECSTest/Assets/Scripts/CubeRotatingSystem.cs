@@ -11,8 +11,17 @@ using Random = Unity.Mathematics.Random;
 public partial struct CubeRotatingSystem : ISystem
 {
     [BurstCompile]
+    public void OnCreate(ref SystemState state)
+    {
+        state.RequireForUpdate<GameStateCommand>();
+    }
+    [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
+        GameStateCommand gameState;
+        SystemAPI.TryGetSingleton<GameStateCommand>(out gameState);
+        if (gameState.currentState != 1)
+            return;
         Random randomValue = new(1);
         float3 moveDirection = new float3(0, -1, 0); ;
 

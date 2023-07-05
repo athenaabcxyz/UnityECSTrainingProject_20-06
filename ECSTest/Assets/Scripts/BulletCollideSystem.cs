@@ -17,7 +17,7 @@ public partial class BulletCollideSystem : SystemBase
         {
             foreach (var (cubeTransform, hp, tag, cubeEntity) in SystemAPI.Query<RefRO<LocalTransform>, RefRW<CubeHP>, RefRO<CubeTag>>().WithEntityAccess())
             {
-                if (math.distancesq(transform.ValueRO.Position, cubeTransform.ValueRO.Position) <= 8)
+                if (math.distancesq(transform.ValueRO.Position, cubeTransform.ValueRO.Position) <= (cubeTransform.ValueRO.Scale*cubeTransform.ValueRO.Scale)/2)
                 {
                     ecb.DestroyEntity(entity);
                     hp.ValueRW.HP -= speed.ValueRO.bulletDmg;

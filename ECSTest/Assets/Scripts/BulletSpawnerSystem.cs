@@ -9,8 +9,18 @@ using UnityEngine;
 public partial struct BulletSpawnerSystem: ISystem
 {
     [BurstCompile]
+    public void OnCreate(ref SystemState state)
+    {
+        state.RequireForUpdate<GameStateCommand>();
+    }
+    [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
+        GameStateCommand gameState;
+        SystemAPI.TryGetSingleton<GameStateCommand>(out gameState);
+        if (gameState.currentState !=1)
+            return;
+
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             foreach (var (transform, player) in SystemAPI.Query<RefRW<LocalTransform>, RefRO<PlayerInfo>>())

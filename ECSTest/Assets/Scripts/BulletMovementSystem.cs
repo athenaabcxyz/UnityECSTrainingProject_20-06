@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
@@ -9,8 +10,17 @@ using UnityEngine;
 [UpdateAfter(typeof(SimulationSystemGroup))]
 public partial struct BulletMovementSystem : ISystem
 {
+    [BurstCompile]
+    public void OnCreate(ref SystemState state)
+    {
+        state.RequireForUpdate<GameStateCommand>();
+    }
     public void OnUpdate(ref SystemState state)
     {
+        GameStateCommand gameState;
+        SystemAPI.TryGetSingleton<GameStateCommand>(out gameState);
+        if (gameState.currentState != 1)
+            return;
         var ecbSingleton = SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>();
         var ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
 

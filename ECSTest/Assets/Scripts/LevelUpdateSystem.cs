@@ -10,7 +10,7 @@ public partial class LevelUpdateSystem: SystemBase
     Spawner spawner;
     protected override void OnUpdate()
     {
-        spawner = SystemAPI.GetSingleton<Spawner>();
+        SystemAPI.TryGetSingleton<Spawner>(out spawner);
         OnLevelUpdate?.Invoke(spawner.currentLevel);
     }
 }

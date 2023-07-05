@@ -22,13 +22,15 @@ public partial struct SpawnerSystem : ISystem
     public void OnCreate(ref SystemState state)
     {
         state.RequireForUpdate<Spawner>();
+        state.RequireForUpdate<GameStateCommand>();
     }
 
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
         Random randomValue = new Random(1337);
-        var config = SystemAPI.GetSingleton<Spawner>();
+        Spawner config;
+        SystemAPI.TryGetSingleton<Spawner>(out config);
         var CubeQuery = SystemAPI.QueryBuilder().WithAll<CubeHP>().Build();
         if (CubeQuery.IsEmpty)
         {
@@ -49,7 +51,7 @@ public partial struct SpawnerSystem : ISystem
                 rectangleSpawner.ScheduleParallel();
             }
             else
-            if (config.enemiesQuantity % 20 == 0 &&config.enemiesQuantity%40!=0)
+            if (config.enemiesQuantity % 20 == 0 && config.enemiesQuantity % 40 != 0)
             {
 
                 var rectangleSpawner = new TriangleSpawner
@@ -61,7 +63,7 @@ public partial struct SpawnerSystem : ISystem
                 rectangleSpawner.ScheduleParallel();
             }
             else
-            if(config.enemiesQuantity%50==0)
+            if (config.enemiesQuantity % 50 == 0)
             {
                 var rectangleSpawner = new BossSpawner
                 {
@@ -84,6 +86,7 @@ public partial struct SpawnerSystem : ISystem
             var job = new LevelUpJob();
             job.Schedule();
             ecb.Dispose();
+            Cubes.Dispose();
         }
     }
 }
@@ -95,7 +98,10 @@ public partial struct LevelUpJob : IJobEntity
     {
         config.currentLevel++;
         config.enemiesQuantity += 10;
-        config.modificationMoveSpeed *= (1 + (0.1f * config.currentLevel));
+        if (config.currentLevel % 5 == 0)
+            config.modificationMoveSpeed = 1f;
+        else
+            config.modificationMoveSpeed += 0.1f;
     }
 }
 
@@ -118,7 +124,7 @@ public partial struct BossSpawner : IJobEntity
         };
         speed = new CubeSpeed { speed = 1f };
         tag = new CubeTag { tag = true };
-        hp = new CubeHP { HP = 100 };
+        hp = new CubeHP { HP = 100*(config.currentLevel/5) };
     }
 }
 
