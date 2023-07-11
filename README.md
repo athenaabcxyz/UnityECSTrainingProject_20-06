@@ -1,5 +1,5 @@
 # UnityECSTrainingProject_20-06
-This is the repo for training day June 20th
+This is the repo for training day June 20th. This is a regular 2d shooting game, use for testing Unity ECS tech.
 
 Worked function:
 - Press "Start" to play game.
